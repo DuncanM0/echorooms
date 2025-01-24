@@ -1,0 +1,24 @@
+<?php
+//delete_account.php
+session_start();
+include 'connect.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $post_id = $_POST['post_id'];
+
+    $sql = "DELETE FROM posts WHERE post_id = ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $post_id);
+
+    if ($stmt->execute()) {
+        echo "Deleted Comment";
+    } else {
+        echo "Error deleting Message: " . $stmt->error;
+    }
+
+    $stmt->close();
+    $conn->close();
+} else {
+    echo "Invalid request method.";
+}
